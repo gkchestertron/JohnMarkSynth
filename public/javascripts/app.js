@@ -1,10 +1,24 @@
+var context;
+window.addEventListener('load', init, false);
+function init() {
+  try {
+    // Fix up for prefixing
+    window.AudioContext = window.AudioContext||window.webkitAudioContext;
+    context = new AudioContext();
+    context.synths = [];
+    var synthPad = new SynthPad();
+    context.synths.push(synthPad);
+  }
+  catch(e) {
+    alert('Web Audio API is not supported in this browser');
+  }
+}
+
 var SynthPad = (function() {
   // Variables
   var myCanvas;
   var frequencyLabel;
   var volumeLabel;
-
-  var myAudioContext;
   var oscillator;
   var gainNode;
 
@@ -19,9 +33,6 @@ var SynthPad = (function() {
     myCanvas = document.getElementById('synth-pad');
     frequencyLabel = document.getElementById('frequency');
     volumeLabel = document.getElementById('volume');
-  
-    // Create an audio context.
-    myAudioContext = new webkitAudioContext();
   
     SynthPad.setupEventListeners();
   };
@@ -46,12 +57,12 @@ var SynthPad = (function() {
   
   // Play a note.
   SynthPad.playSound = function(event) {
-    oscillator = myAudioContext.createOscillator();
-    gainNode = myAudioContext.createGainNode();
+    oscillator = context.createOscillator();
+    gainNode = context.createGainNode();
   
     oscillator.type = 'triangle';
   
-    gainNode.connect(myAudioContext.destination);
+    gainNode.connect(context.destination);
     oscillator.connect(gainNode);
   
     SynthPad.updateFrequency(event);
@@ -63,7 +74,6 @@ var SynthPad = (function() {
   
     myCanvas.addEventListener('mouseout', SynthPad.stopSound);
   };
-  
   
   // Stop the audio.
   SynthPad.stopSound = function(event) {
@@ -119,7 +129,4 @@ var SynthPad = (function() {
 })();
 
 
-// Initialize the page.
-window.onload = function() {
-  var synthPad = new SynthPad();
-}
+

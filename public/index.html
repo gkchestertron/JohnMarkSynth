@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+  </head>
+
+  <body>
+	<div id="page-wrapper" class="clearfix">
+		<canvas id="synth-pad"></canvas>
+		<div id="info">
+			<h1>Web Audio Synth Pad</h1>
+			<p>
+				Click and drag the mouse over the synthesiser pad to generate a sound.
+			</p>
+			<p>
+				Frequency: <span id="frequency">n/a</span>
+			</p>
+			<p>
+				Volume: <span id="volume">n/a</span>
+			</p>
+		</div>
+	</div>
+
+	<script src="/javascripts/app.js"></script>
+</body>
+</html>
